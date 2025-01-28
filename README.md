@@ -1,17 +1,17 @@
-# LangChain Tools and Agents: Retriever, Embeddings, VectorStores, and LLM Integration"  
+# LangChain Tools and Agents: Retriever, Embeddings, VectorStores, and LLM Integration
 
-This repository provides a step-by-step guide to set up **Tools and Agents** using LangChain and related libraries manually.  
+This repository provides a step-by-step guide to set up **Tools and Agents** using LangChain and related libraries manually, including creating APIs for integrating the tools and agents.
 
-## Setup Instructions  
+## Setup Instructions
 
-Follow these steps to set up your environment and run the project.  
+Follow these steps to set up your environment and run the project.
 
-### Step 1: Download the Files  
+### Step 1: Download the Files
 
 1. Download the provided files:  
    - `tools-and-agents.ipynb`  
    - `requirements.txt`  
-   - `.env`  
+   - `.env`
 
 2. Place all files in a single folder on your machine. For example:  
    ```
@@ -19,9 +19,9 @@ Follow these steps to set up your environment and run the project.
    ├── tools-and-agents.ipynb
    ├── requirements.txt
    ├── .env
-   ```  
+   ```
 
-### Step 2: Create a Virtual Environment  
+### Step 2: Create a Virtual Environment
 
 1. Open a terminal in the folder where the files are located.  
 2. Create a virtual environment by running the following command:  
@@ -40,7 +40,7 @@ Follow these steps to set up your environment and run the project.
      source venv/bin/activate
      ```  
 
-### Step 3: Install Dependencies  
+### Step 3: Install Dependencies
 
 1. Ensure `pip` is updated:  
    ```bash
@@ -51,7 +51,7 @@ Follow these steps to set up your environment and run the project.
    pip install -r requirements.txt
    ```  
 
-### Step 4: Set Up the Environment Variables  
+### Step 4: Set Up the Environment Variables
 
 1. Open the `.env` file using any text editor.  
 2. Add your API keys and tokens in the following format:  
@@ -61,9 +61,9 @@ Follow these steps to set up your environment and run the project.
    HF_TOKEN=your_huggingface_token
    ```  
 
-   Save the file after editing.  
+   Save the file after editing.
 
-### Step 5: Run the Jupyter Notebook  
+### Step 5: Run the Jupyter Notebook
 
 1. Install Jupyter Notebook if you don’t have it already:  
    ```bash
@@ -74,19 +74,87 @@ Follow these steps to set up your environment and run the project.
    jupyter notebook
    ```  
 3. Open `tools-and-agents.ipynb` in the Jupyter Notebook interface.  
-4. Run each code cell sequentially to test and implement the functionality.  
-
-### Additional Notes  
-
-- **Document Splitting**: Customize the splitting methods (`CharacterTextSplitter`, `RecursiveCharacterTextSplitter`) based on the use case.  
-- **VectorStores**: Save, edit, or retrieve vectors as required using FAISS or ChromaDB.  
-- **Agents**: Use the provided tools and models for various retrieval and interaction tasks.  
+4. Run each code cell sequentially to test and implement the functionality.
 
 ---
 
-## Requirements  
+## Creating APIs
 
-Make sure the `requirements.txt` file includes all necessary dependencies. The basic structure might look like:  
+To create an API for the tools and agents, you can use **Flask** or **FastAPI** to expose your LangChain components over HTTP. Here’s a simple example using **Flask**:
+
+### Step 1: Install Flask
+
+If you don’t have Flask installed, add it to your `requirements.txt` file and install it:
+
+```bash
+pip install flask
+```
+
+### Step 2: Create a Simple Flask API
+
+In your project folder, create a new Python file, e.g., `app.py`, and include the following code:
+
+```python
+from flask import Flask, request, jsonify
+from langchain.agents import AgentExecutor
+from langchain.tools import Tool
+
+# Initialize Flask app
+app = Flask(__name__)
+
+# Initialize your tools (retriever, chat, etc.)
+tools = [wiki, arxiv, retriever_tool]  # Add more tools if needed
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+@app.route('/invoke', methods=['POST'])
+def invoke_agent():
+    # Get the query from the request body
+    user_input = request.json.get('input', '')
+
+    # Invoke the agent with the user input
+    response = agent_executor.invoke({"input": user_input})
+
+    # Return the response as JSON
+    return jsonify({'response': response})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+### Step 3: Run the Flask API
+
+1. Ensure your virtual environment is active.
+2. Run the Flask app:
+
+   ```bash
+   python app.py
+   ```
+
+   This will start a local server at `http://127.0.0.1:5000/`.
+
+### Step 4: Test the API
+
+You can use **Postman** or **cURL** to test the API. For example, to invoke the agent:
+
+```bash
+curl -X POST -H "Content-Type: application/json" \
+    -d '{"input": "What is the attention mechanism?"}' \
+    http://127.0.0.1:5000/invoke
+```
+
+You should get a response like:
+
+```json
+{
+  "response": "The attention mechanism is a technique used in deep learning models to focus on different parts of the input sequence when making predictions."
+}
+```
+
+---
+
+## Requirements
+
+Make sure the `requirements.txt` file includes all necessary dependencies. The basic structure might look like:
 
 ```
 langchain
@@ -95,23 +163,28 @@ faiss-cpu
 bs4
 arxiv
 jupyter
-```  
+flask
+```
 
 ---
 
-## FAQs  
+## FAQs
 
 1. **Why create a virtual environment?**  
-   A virtual environment isolates project dependencies to avoid conflicts with global Python packages.  
+   A virtual environment isolates project dependencies to avoid conflicts with global Python packages.
 
 2. **What API keys are required?**  
    - **GROQ_API_KEY**: For the Groq model.  
-   - **HF_TOKEN**: For HuggingFace embeddings.  
+   - **HF_TOKEN**: For HuggingFace embeddings.
 
 3. **How to add more tools?**  
-   Extend the `tools` list in the notebook by creating new retrievers, LLM tools, or document loaders.  
+   Extend the `tools` list in the notebook by creating new retrievers, LLM tools, or document loaders.
 
+4. **How do I create APIs for my tools?**  
+   You can use Flask or FastAPI to expose your LangChain tools and agents as APIs. Refer to the example above for a simple Flask API setup.
 
+---
 
-# Connect with me:linkedin.com/in/h-m-nahid-kawsar-232a86266  
+## Connect with Me
 
+Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/nahid-kawsar/)!  
