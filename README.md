@@ -1,190 +1,131 @@
-# **Tools and Agents: Retriever, Embeddings, VectorStores, and LLM Integration**
+# **Tools and Agents Setup Guide**
 
-This repository provides a step-by-step guide to set up **Tools and Agents** using LangChain and related libraries manually, including creating APIs for integrating the tools and agents.
+This guide will walk you through the process of setting up the **Tools and Agents** notebook environment, which includes creating a virtual environment, copying the code from the provided `tools_and_agents.ipynb` file, and setting up the required files. Additionally, it includes instructions for installing dependencies and configuring your environment.
 
-## Setup Instructions
+## **Table of Contents**
 
-Follow these steps to set up your environment and run the project.
+1. [Setting Up the Virtual Environment](#setting-up-the-virtual-environment)
+2. [Copying the Code from the Notebook](#copying-the-code-from-the-notebook)
+3. [Required Files](#required-files)
+4. [Installation of Dependencies](#installation-of-dependencies)
+5. [Running the Code](#running-the-code)
+6. [Contact Information](#contact-information)
 
-### Step 1: Download the Files
+---
 
-1. Download the provided files:  
-   - `tools-and-agents.ipynb`  
-   - `requirements.txt`  
-   - `.env`
+## **Setting Up the Virtual Environment**
 
-2. Place all files in a single folder on your machine. For example:  
-   ```
-   tools-and-agents/
-   ├── tools-and-agents.ipynb
-   ├── requirements.txt
-   ├── .env
-   ```
+Before you start, it's essential to create a virtual environment to ensure that dependencies do not interfere with other projects.
 
-### Step 2: Create a Virtual Environment
+1. **Create a Virtual Environment:**
 
-1. Open a terminal in the folder where the files are located.  
-2. Create a virtual environment by running the following command:  
+   - For **Windows**:
+     ```bash
+     python -m venv venv
+     ```
+   
+   - For **macOS/Linux**:
+     ```bash
+     python3 -m venv venv
+     ```
 
-   ```bash
-   python -m venv venv
-   ```  
+2. **Activate the Virtual Environment:**
 
-3. Activate the virtual environment:  
-   - On **Windows**:  
+   - For **Windows**:
      ```bash
      venv\Scripts\activate
-     ```  
-   - On **macOS/Linux**:  
+     ```
+   
+   - For **macOS/Linux**:
      ```bash
      source venv/bin/activate
-     ```  
+     ```
 
-### Step 3: Install Dependencies
+---
 
-1. Ensure `pip` is updated:  
-   ```bash
-   pip install --upgrade pip
-   ```  
-2. Install the required libraries:  
+## **Copying the Code from the Notebook**
+
+1. Download the `tools_and_agents.ipynb` file provided.
+   
+2. Open the file using **Jupyter Notebook** or **JupyterLab** and review the code provided. The file contains all the necessary code for setting up tools, agents, document loaders, embeddings, vector stores, and retrievers.
+
+3. Copy the code blocks as described and paste them into your working Python scripts. The notebook should guide you step-by-step for each tool and agent setup.
+
+---
+
+## **Required Files**
+
+Make sure you have the following files in your project directory:
+
+1. **`requirements.txt`**: This file contains all the necessary libraries that need to be installed. Below is a sample `requirements.txt` file:
+
+   ```txt
+   langchain
+   langchain_community
+   langchain_huggingface
+   langchain_groq
+   langchain_core
+   python-dotenv
+   fastapi
+   uvicorn
+   faiss-cpu
+   chromadb
+   arxiv
+   beautifulsoup4
+   ```
+
+2. **`.env` File**: The `.env` file contains your API keys and other environment variables. Add the following to the `.env` file:
+
+   ```txt
+   HF_TOKEN=your_huggingface_api_token
+   GROQ_API_KEY=your_groq_api_key
+   ```
+
+---
+
+## **Obtaining API Keys**
+
+You need to create API keys for **Hugging Face** and **Groq** to access the respective services.
+
+### **1. Hugging Face API Key**
+
+To obtain your Hugging Face API key, follow these steps:
+
+1. Go to [Hugging Face's website](https://huggingface.co/).
+2. Create an account or log in to your existing account.
+3. Once logged in, go to your account settings by clicking on your profile picture in the top-right corner and selecting "Settings."
+4. On the left menu, select the "Access Tokens" section.
+5. Click the "New Token" button to generate a new API key.
+6. Copy the generated token and paste it into your `.env` file as `HF_TOKEN`.
+
+### **2. Groq API Key**
+
+To obtain your Groq API key, follow these steps:
+
+1. Go to [Groq's website](https://groq.com/).
+2. Create an account or log in to your existing account.
+3. Navigate to the **API** section of your account dashboard.
+4. Request access to the API key if you haven't already done so.
+5. Once granted access, copy the API key and paste it into your `.env` file as `GROQ_API_KEY`.
+
+---
+
+## **Installation of Dependencies**
+
+To install all the required dependencies:
+
+1. Make sure your virtual environment is activated (see above).
+2. Install the required packages from `requirements.txt`:
+
    ```bash
    pip install -r requirements.txt
-   ```  
-
-### Step 4: Set Up the Environment Variables
-
-1. Open the `.env` file using any text editor.  
-2. Add your API keys and tokens in the following format:  
-
-   ```
-   GROQ_API_KEY=your_groq_api_key
-   HF_TOKEN=your_huggingface_token
-   ```  
-
-   Save the file after editing.
-
-### Step 5: Run the Jupyter Notebook
-
-1. Install Jupyter Notebook if you don’t have it already:  
-   ```bash
-   pip install notebook
-   ```  
-2. Launch the notebook:  
-   ```bash
-   jupyter notebook
-   ```  
-3. Open `tools-and-agents.ipynb` in the Jupyter Notebook interface.  
-4. Run each code cell sequentially to test and implement the functionality.
-
----
-
-## Creating APIs
-
-To create an API for the tools and agents, you can use **Flask** or **FastAPI** to expose your LangChain components over HTTP. Here’s a simple example using **Flask**:
-
-### Step 1: Install Flask
-
-If you don’t have Flask installed, add it to your `requirements.txt` file and install it:
-
-```bash
-pip install flask
-```
-
-### Step 2: Create a Simple Flask API
-
-In your project folder, create a new Python file, e.g., `app.py`, and include the following code:
-
-```python
-from flask import Flask, request, jsonify
-from langchain.agents import AgentExecutor
-from langchain.tools import Tool
-
-# Initialize Flask app
-app = Flask(__name__)
-
-# Initialize your tools (retriever, chat, etc.)
-tools = [wiki, arxiv, retriever_tool]  # Add more tools if needed
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-
-@app.route('/invoke', methods=['POST'])
-def invoke_agent():
-    # Get the query from the request body
-    user_input = request.json.get('input', '')
-
-    # Invoke the agent with the user input
-    response = agent_executor.invoke({"input": user_input})
-
-    # Return the response as JSON
-    return jsonify({'response': response})
-
-if __name__ == '__main__':
-    app.run(debug=True)
-```
-
-### Step 3: Run the Flask API
-
-1. Ensure your virtual environment is active.
-2. Run the Flask app:
-
-   ```bash
-   python app.py
    ```
 
-   This will start a local server at `http://127.0.0.1:5000/`.
-
-### Step 4: Test the API
-
-You can use **Postman** or **cURL** to test the API. For example, to invoke the agent:
-
-```bash
-curl -X POST -H "Content-Type: application/json" \
-    -d '{"input": "What is the attention mechanism?"}' \
-    http://127.0.0.1:5000/invoke
-```
-
-You should get a response like:
-
-```json
-{
-  "response": "The attention mechanism is a technique used in deep learning models to focus on different parts of the input sequence when making predictions."
-}
-```
-
 ---
 
-## Requirements
 
-Make sure the `requirements.txt` file includes all necessary dependencies. The basic structure might look like:
+## **Contact Information**
 
-```
-langchain
-python-dotenv
-faiss-cpu
-bs4
-arxiv
-jupyter
-flask
-```
+If you have any questions or need further assistance, feel free to reach out to me:
 
----
-
-## FAQs
-
-1. **Why create a virtual environment?**  
-   A virtual environment isolates project dependencies to avoid conflicts with global Python packages.
-
-2. **What API keys are required?**  
-   - **GROQ_API_KEY**: For the Groq model.  
-   - **HF_TOKEN**: For HuggingFace embeddings.
-
-3. **How to add more tools?**  
-   Extend the `tools` list in the notebook by creating new retrievers, LLM tools, or document loaders.
-
-4. **How do I create APIs for my tools?**  
-   You can use Flask or FastAPI to expose your LangChain tools and agents as APIs. Refer to the example above for a simple Flask API setup.
-
----
-
-## Connect with Me
-
-Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/nahid-kawsar/)!  
+- **LinkedIn**: [Nahid Kawswr](https://www.linkedin.com/in/nahidkawswr/)
