@@ -1,0 +1,18 @@
+# streamlit
+streamlit
+langchain
+langchain-groq
+langchain-chroma
+langchain-huggingface
+langchain-community
+langchain-core
+python-dotenv
+pypdf
+ipykernel
+grandalf
+bs4
+arxiv
+pymupdf
+faiss-cpu
+wikipedia
+langchainhub
