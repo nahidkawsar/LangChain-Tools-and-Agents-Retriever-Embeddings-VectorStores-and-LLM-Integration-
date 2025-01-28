@@ -1,4 +1,4 @@
-# LangChain Tools and Agents: Retriever, Embeddings, VectorStores, and LLM Integration
+# **Tools and Agents: Retriever, Embeddings, VectorStores, and LLM Integration**
 
 This repository provides a step-by-step guide to set up **Tools and Agents** using LangChain and related libraries manually, including creating APIs for integrating the tools and agents.
 
