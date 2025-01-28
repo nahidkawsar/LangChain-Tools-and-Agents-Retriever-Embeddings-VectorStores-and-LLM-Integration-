@@ -111,8 +111,7 @@ jupyter
 3. **How to add more tools?**  
    Extend the `tools` list in the notebook by creating new retrievers, LLM tools, or document loaders.  
 
----
 
-Connect with me :linkedin.com/in/h-m-nahid-kawsar-232a86266  
 
----  
+# Connect with me:linkedin.com/in/h-m-nahid-kawsar-232a86266  
+
